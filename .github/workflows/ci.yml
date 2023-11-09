@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+  - cron:  '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version-file: go.mod
+    - name: Build
+      env:
+        SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
+      run: make
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version-file: go.mod
+    - name: Lint Code
+      run: make vendor lint
+
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version-file: go.mod
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: false
+    - name: Generate Code
+      env:
+        SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
+      run: |
+        make files.gen
+        make docs/index.md
+        git diff --exit-code
+        [ -z "$(git ls-files --other --exclude-standard --directory)" ]
