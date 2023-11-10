@@ -126,4 +126,4 @@ Your `<PATH>` may vary depending on how your Go environment variables are config
 
 ### Generation
 
-This project is generated using [Speakeasy](https://github.com/speakeasy-api/speakeasy)
+This project is generated using [Speakeasy](https://github.com/speakeasy-api/speakeasy).
