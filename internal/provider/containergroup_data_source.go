@@ -29,6 +29,7 @@ type ContainerGroupDataSource struct {
 
 // ContainerGroupDataSourceModel describes the data model.
 type ContainerGroupDataSourceModel struct {
+	AutostartPolicy  types.Bool                `tfsdk:"autostart_policy"`
 	Container        Container1                `tfsdk:"container"`
 	CountryCodes     []types.String            `tfsdk:"country_codes"`
 	CreateTime       types.String              `tfsdk:"create_time"`
@@ -58,6 +59,9 @@ func (r *ContainerGroupDataSource) Schema(ctx context.Context, req datasource.Sc
 		MarkdownDescription: "ContainerGroup DataSource",
 
 		Attributes: map[string]schema.Attribute{
+			"autostart_policy": schema.BoolAttribute{
+				Computed: true,
+			},
 			"container": schema.SingleNestedAttribute{
 				Computed: true,
 				Attributes: map[string]schema.Attribute{

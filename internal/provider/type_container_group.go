@@ -5,18 +5,19 @@ package provider
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type ContainerGroup struct {
-	Container      Container1                `tfsdk:"container"`
-	CountryCodes   []types.String            `tfsdk:"country_codes"`
-	CreateTime     types.String              `tfsdk:"create_time"`
-	CurrentState   ContainerGroupState       `tfsdk:"current_state"`
-	DisplayName    types.String              `tfsdk:"display_name"`
-	ID             types.String              `tfsdk:"id"`
-	LivenessProbe  *ContainerGroupProbe      `tfsdk:"liveness_probe"`
-	Name           types.String              `tfsdk:"name"`
-	Networking     *ContainerGroupNetworking `tfsdk:"networking"`
-	ReadinessProbe *ContainerGroupProbe      `tfsdk:"readiness_probe"`
-	Replicas       types.Int64               `tfsdk:"replicas"`
-	RestartPolicy  types.String              `tfsdk:"restart_policy"`
-	StartupProbe   *ContainerGroupProbe      `tfsdk:"startup_probe"`
-	UpdateTime     types.String              `tfsdk:"update_time"`
+	AutostartPolicy types.Bool                `tfsdk:"autostart_policy"`
+	Container       Container1                `tfsdk:"container"`
+	CountryCodes    []types.String            `tfsdk:"country_codes"`
+	CreateTime      types.String              `tfsdk:"create_time"`
+	CurrentState    ContainerGroupState       `tfsdk:"current_state"`
+	DisplayName     types.String              `tfsdk:"display_name"`
+	ID              types.String              `tfsdk:"id"`
+	LivenessProbe   *ContainerGroupProbe      `tfsdk:"liveness_probe"`
+	Name            types.String              `tfsdk:"name"`
+	Networking      *ContainerGroupNetworking `tfsdk:"networking"`
+	ReadinessProbe  *ContainerGroupProbe      `tfsdk:"readiness_probe"`
+	Replicas        types.Int64               `tfsdk:"replicas"`
+	RestartPolicy   types.String              `tfsdk:"restart_policy"`
+	StartupProbe    *ContainerGroupProbe      `tfsdk:"startup_probe"`
+	UpdateTime      types.String              `tfsdk:"update_time"`
 }

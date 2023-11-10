@@ -36,6 +36,7 @@ data "saladcloud_container_groups" "my_containergroups" {
 
 Read-Only:
 
+- `autostart_policy` (Boolean)
 - `container` (Attributes) Represents a container (see [below for nested schema](#nestedatt--items--container))
 - `country_codes` (List of String)
 - `create_time` (String)

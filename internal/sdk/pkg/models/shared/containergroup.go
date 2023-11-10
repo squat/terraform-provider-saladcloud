@@ -9,13 +9,14 @@ import (
 
 // ContainerGroup - Represents a container group
 type ContainerGroup struct {
+	AutostartPolicy bool `json:"autostart_policy"`
 	// Represents a container
 	Container    Container     `json:"container"`
 	CountryCodes []CountryCode `json:"country_codes,omitempty"`
 	CreateTime   time.Time     `json:"create_time"`
 	// Represents a container group state
 	CurrentState ContainerGroupState `json:"current_state"`
-	DisplayName  string              `json:"display_name"`
+	DisplayName  *string             `json:"display_name,omitempty"`
 	ID           string              `json:"id"`
 	// Represents container group probe
 	LivenessProbe *ContainerGroupProbe `json:"liveness_probe,omitempty"`
@@ -40,6 +41,13 @@ func (c *ContainerGroup) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (o *ContainerGroup) GetAutostartPolicy() bool {
+	if o == nil {
+		return false
+	}
+	return o.AutostartPolicy
 }
 
 func (o *ContainerGroup) GetContainer() Container {
@@ -70,9 +78,9 @@ func (o *ContainerGroup) GetCurrentState() ContainerGroupState {
 	return o.CurrentState
 }
 
-func (o *ContainerGroup) GetDisplayName() string {
+func (o *ContainerGroup) GetDisplayName() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.DisplayName
 }
