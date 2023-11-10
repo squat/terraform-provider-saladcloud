@@ -57,7 +57,10 @@ resource "saladcloud_container_group" "my_containergroup" {
     resources = {
       cpu       = 6
       gpu_class = "...my_gpu_class..."
-      memory    = 9
+      gpu_classes = [
+        "...",
+      ]
+      memory = 9
     }
   }
   country_codes = [
@@ -222,6 +225,7 @@ Required:
 Optional:
 
 - `gpu_class` (String)
+- `gpu_classes` (List of String)
 
 
 <a id="nestedatt--container--logging"></a>

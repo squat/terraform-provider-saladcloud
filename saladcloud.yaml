@@ -987,10 +987,16 @@ components:
         gpu_class:
           nullable: true
           type: string
+          deprecated: true
         memory:
           maximum: 30720
           minimum: 1
           type: integer
+        gpu_classes:
+          nullable: true
+          type: array
+          items:
+            type: string
       required:
         - cpu
         - memory

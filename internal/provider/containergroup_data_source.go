@@ -122,6 +122,10 @@ func (r *ContainerGroupDataSource) Schema(ctx context.Context, req datasource.Sc
 							"gpu_class": schema.StringAttribute{
 								Computed: true,
 							},
+							"gpu_classes": schema.ListAttribute{
+								Computed:    true,
+								ElementType: types.StringType,
+							},
 							"memory": schema.Int64Attribute{
 								Computed: true,
 							},
