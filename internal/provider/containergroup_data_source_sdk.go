@@ -52,6 +52,10 @@ func (r *ContainerGroupDataSourceModel) RefreshFromGetResponse(resp *shared.Cont
 	} else {
 		r.Container.Resources.GpuClass = types.StringNull()
 	}
+	r.Container.Resources.GpuClasses = nil
+	for _, v := range resp.Container.Resources.GpuClasses {
+		r.Container.Resources.GpuClasses = append(r.Container.Resources.GpuClasses, types.StringValue(v))
+	}
 	r.Container.Resources.Memory = types.Int64Value(resp.Container.Resources.Memory)
 	r.CountryCodes = nil
 	for _, v := range resp.CountryCodes {

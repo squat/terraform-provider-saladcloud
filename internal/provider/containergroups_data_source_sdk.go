@@ -55,6 +55,10 @@ func (r *ContainerGroupsDataSourceModel) RefreshFromGetResponse(resp *shared.Con
 		} else {
 			items1.Container.Resources.GpuClass = types.StringNull()
 		}
+		items1.Container.Resources.GpuClasses = nil
+		for _, v := range itemsItem.Container.Resources.GpuClasses {
+			items1.Container.Resources.GpuClasses = append(items1.Container.Resources.GpuClasses, types.StringValue(v))
+		}
 		items1.Container.Resources.Memory = types.Int64Value(itemsItem.Container.Resources.Memory)
 		items1.CountryCodes = nil
 		for _, v := range itemsItem.CountryCodes {

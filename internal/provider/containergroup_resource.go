@@ -266,6 +266,14 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 								},
 								Optional: true,
 							},
+							"gpu_classes": schema.ListAttribute{
+								Computed: true,
+								PlanModifiers: []planmodifier.List{
+									listplanmodifier.RequiresReplace(),
+								},
+								Optional:    true,
+								ElementType: types.StringType,
+							},
 							"memory": schema.Int64Attribute{
 								PlanModifiers: []planmodifier.Int64{
 									int64planmodifier.RequiresReplace(),

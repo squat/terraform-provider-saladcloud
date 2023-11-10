@@ -104,11 +104,16 @@ func (r *ContainerGroupResourceModel) ToCreateSDKType() *shared.CreateContainerG
 	} else {
 		gpuClass = nil
 	}
+	var gpuClasses []string = nil
+	for _, gpuClassesItem := range r.Container.Resources.GpuClasses {
+		gpuClasses = append(gpuClasses, gpuClassesItem.ValueString())
+	}
 	memory := r.Container.Resources.Memory.ValueInt64()
 	resources := shared.ContainerResourceRequirements{
-		CPU:      cpu,
-		GpuClass: gpuClass,
-		Memory:   memory,
+		CPU:        cpu,
+		GpuClass:   gpuClass,
+		GpuClasses: gpuClasses,
+		Memory:     memory,
 	}
 	container := shared.CreateContainer{
 		Command:                command,
@@ -443,6 +448,10 @@ func (r *ContainerGroupResourceModel) RefreshFromGetResponse(resp *shared.Contai
 		r.Container.Resources.GpuClass = types.StringValue(*resp.Container.Resources.GpuClass)
 	} else {
 		r.Container.Resources.GpuClass = types.StringNull()
+	}
+	r.Container.Resources.GpuClasses = nil
+	for _, v := range resp.Container.Resources.GpuClasses {
+		r.Container.Resources.GpuClasses = append(r.Container.Resources.GpuClasses, types.StringValue(v))
 	}
 	r.Container.Resources.Memory = types.Int64Value(resp.Container.Resources.Memory)
 	r.CountryCodes = nil

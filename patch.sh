@@ -1,6 +1,8 @@
 #! /usr/bin/env sh
 # General Patches
 bin/yq -i '.components.schemas.ContainerResourceRequirements.properties.memory.maximum = 30720' saladcloud.yaml
+bin/yq -i '.components.schemas.ContainerResourceRequirements.properties.gpu_class.deprecated = true' saladcloud.yaml
+bin/yq -i '.components.schemas.ContainerResourceRequirements.properties.gpu_classes = {"nullable": true, "type": "array", "items": {"type": "string"}}' saladcloud.yaml
 # Container Group
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers"].post.x-speakeasy-entity-operation = "ContainerGroup#create"' saladcloud.yaml
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}"].get.x-speakeasy-entity-operation = "ContainerGroup#read"' saladcloud.yaml

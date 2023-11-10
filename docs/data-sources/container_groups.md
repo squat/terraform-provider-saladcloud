@@ -106,6 +106,7 @@ Read-Only:
 
 - `cpu` (Number)
 - `gpu_class` (String)
+- `gpu_classes` (List of String)
 - `memory` (Number)
 
 
