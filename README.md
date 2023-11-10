@@ -4,55 +4,6 @@ The Terraform provider for SaladCloud enables the declarative management of reso
 
 [![Build Status](https://github.com/squat/terraform-provider-saladcloud/workflows/CI/badge.svg)](https://github.com/squat/terraform-provider-saladcloud/actions?query=workflow%3ACI)
 
-<!-- Start SDK SDK Installation -->
-## SDK Installation
-
-To install this provider, copy and paste this code into your Terraform configuration. Then, run `terraform init`.
-
-```hcl
-terraform {
-  required_providers {
-    saladcloud = {
-      source  = "squat/saladcloud"
-      version = "0.0.1"
-    }
-  }
-}
-
-provider "saladcloud" {
-  # Configuration options
-}
-```
-<!-- End SDK SDK Installation -->
-
-## SDK Example Usage
-
-<!-- Start SDK SDK Example Usage -->
-### Testing the provider locally
-
-Should you want to validate a change locally, the `--debug` flag allows you to execute the provider against a terraform instance locally.
-
-This also allows for debuggers (e.g. delve) to be attached to the provider.
-
-### Example
-
-```sh
-go run main.go --debug
-# Copy the TF_REATTACH_PROVIDERS env var
-# In a new terminal
-cd examples/your-example
-TF_REATTACH_PROVIDERS=... terraform init
-TF_REATTACH_PROVIDERS=... terraform apply
-```
-<!-- End SDK SDK Example Usage -->
-
-
-<!-- Start SDK SDK Available Operations -->
-
-<!-- End SDK SDK Available Operations -->
-
-
-
 <!-- Start SDK Installation -->
 ## SDK Installation
 
