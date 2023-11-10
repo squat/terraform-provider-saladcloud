@@ -1,6 +1,6 @@
-# Terraform Provider for SaladCloud
+# SaladCloud Terraform Provider
 
-The Terraform SaladCloud provider is a plugin for Terraform that enables the management of resources in [SaladCloud](https://salad.com/).
+The Terraform provider for SaladCloud enables the declarative management of resources in [SaladCloud](https://salad.com/).
 
 [![Build Status](https://github.com/squat/terraform-provider-saladcloud/workflows/CI/badge.svg)](https://github.com/squat/terraform-provider-saladcloud/actions?query=workflow%3ACI)
 
@@ -28,11 +28,13 @@ provider "saladcloud" {
 ## SDK Example Usage
 
 <!-- Start SDK SDK Example Usage -->
-## Testing the provider locally
+### Testing the provider locally
 
 Should you want to validate a change locally, the `--debug` flag allows you to execute the provider against a terraform instance locally.
 
 This also allows for debuggers (e.g. delve) to be attached to the provider.
+
+### Example
 
 ```sh
 go run main.go --debug
@@ -50,13 +52,6 @@ TF_REATTACH_PROVIDERS=... terraform apply
 <!-- End SDK SDK Available Operations -->
 
 
-<!-- Start SDK Dev Containers -->
-
-
-
-<!-- End SDK Dev Containers -->
-
-
 
 <!-- Start SDK Installation -->
 ## SDK Installation
@@ -68,7 +63,7 @@ terraform {
   required_providers {
     saladcloud = {
       source  = "squat/saladcloud"
-      version = "0.0.1"
+      version = "0.1.0"
     }
   }
 }
@@ -107,12 +102,6 @@ TF_REATTACH_PROVIDERS=... terraform apply
 
 <!-- End SDK Available Operations -->
 
-
-
-<!-- Start Dev Containers -->
-
-<!-- End Dev Containers -->
-
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 
 Terraform allows you to use local provider builds by setting a `dev_overrides` block in a configuration file called `.terraformrc`. This block overrides all other configured installation methods.
@@ -135,4 +124,6 @@ provider_installation {
 
 Your `<PATH>` may vary depending on how your Go environment variables are configured. Execute `go env GOBIN` to set it, then set the `<PATH>` to the value returned. If nothing is returned, set it to the default location, `$HOME/go/bin`.
 
-### SDK Created by [Speakeasy](https://docs.speakeasyapi.dev/docs/using-speakeasy/client-sdks)
+### Generation
+
+This project is generated using [Speakeasy](https://github.com/speakeasy-api/speakeasy)

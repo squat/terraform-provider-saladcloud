@@ -126,7 +126,7 @@ saladcloud.json:
 saladcloud.yaml: saladcloud.json $(GOJSONTOYAML_BINARY) $(YQ_BINARY) patch.sh
 	cat $< | $(GOJSONTOYAML_BINARY) > $@ && sh patch.sh
 
-files.gen: saladcloud.yaml $(SPEAKEASY_BINARY)
+files.gen: saladcloud.yaml $(SPEAKEASY_BINARY) gen.yaml
 	$(SPEAKEASY_BINARY) generate sdk --lang terraform --schema $< --out .
 	# Add tools.
 	sed -i '\|// Documentation generation|i _ "honnef.co/go/tools/cmd/staticcheck"' tools/tools.go
