@@ -39,6 +39,7 @@ type ContainerGroupResource struct {
 
 // ContainerGroupResourceModel describes the resource data model.
 type ContainerGroupResourceModel struct {
+	AutostartPolicy  types.Bool                `tfsdk:"autostart_policy"`
 	Container        Container                 `tfsdk:"container"`
 	CountryCodes     []types.String            `tfsdk:"country_codes"`
 	CreateTime       types.String              `tfsdk:"create_time"`
@@ -66,6 +67,9 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 		MarkdownDescription: "ContainerGroup Resource",
 
 		Attributes: map[string]schema.Attribute{
+			"autostart_policy": schema.BoolAttribute{
+				Computed: true,
+			},
 			"container": schema.SingleNestedAttribute{
 				PlanModifiers: []planmodifier.Object{
 					objectplanmodifier.RequiresReplace(),
@@ -351,7 +355,8 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 				Description: `Represents a container group state`,
 			},
 			"display_name": schema.StringAttribute{
-				Required: true,
+				Computed: true,
+				Optional: true,
 			},
 			"id": schema.StringAttribute{
 				Computed: true,

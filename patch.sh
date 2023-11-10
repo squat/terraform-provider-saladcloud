@@ -11,6 +11,9 @@ bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/c
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}"].patch.x-speakeasy-entity-operation = "ContainerGroup#update"' saladcloud.yaml
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}"].delete.x-speakeasy-entity-operation = "ContainerGroup#delete"' saladcloud.yaml
 bin/yq -i '.components.schemas.ContainerGroup.x-speakeasy-entity = "ContainerGroup"' saladcloud.yaml
+bin/yq -i '.components.schemas.ContainerGroup.properties.autostart_policy = {"type": "boolean"}' saladcloud.yaml
+bin/yq -i 'del(.components.schemas.ContainerGroup.required[] | select(. == "display_name"))' saladcloud.yaml
+bin/yq -i '.components.schemas.ContainerGroup.required += ["autostart_policy"]' saladcloud.yaml
 bin/yq -i '.components.parameters.container_group_name.x-speakeasy-match = "name"' saladcloud.yaml
 # Container Group Instances
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances"].get.x-speakeasy-entity-operation = "ContainerGroupInstances#read"' saladcloud.yaml

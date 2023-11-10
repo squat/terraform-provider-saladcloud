@@ -177,7 +177,6 @@ resource "saladcloud_container_group" "my_containergroup" {
 ### Required
 
 - `container` (Attributes) Represents a container (see [below for nested schema](#nestedatt--container))
-- `display_name` (String)
 - `name` (String)
 - `organization_name` (String) The unique organization name
 - `project_name` (String) The unique project name
@@ -187,6 +186,7 @@ resource "saladcloud_container_group" "my_containergroup" {
 ### Optional
 
 - `country_codes` (List of String)
+- `display_name` (String)
 - `liveness_probe` (Attributes) Represents container group probe (see [below for nested schema](#nestedatt--liveness_probe))
 - `networking` (Attributes) Represents container group networking parameters (see [below for nested schema](#nestedatt--networking))
 - `readiness_probe` (Attributes) Represents container group probe (see [below for nested schema](#nestedatt--readiness_probe))
@@ -194,6 +194,7 @@ resource "saladcloud_container_group" "my_containergroup" {
 
 ### Read-Only
 
+- `autostart_policy` (Boolean)
 - `create_time` (String)
 - `current_state` (Attributes) Represents a container group state (see [below for nested schema](#nestedatt--current_state))
 - `id` (String) The ID of this resource.

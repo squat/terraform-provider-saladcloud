@@ -49,6 +49,9 @@ func (r *ContainerGroupsDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"autostart_policy": schema.BoolAttribute{
+							Computed: true,
+						},
 						"container": schema.SingleNestedAttribute{
 							Computed: true,
 							Attributes: map[string]schema.Attribute{

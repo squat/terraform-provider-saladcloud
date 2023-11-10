@@ -730,16 +730,18 @@ components:
         update_time:
           format: date-time
           type: string
+        autostart_policy:
+          type: boolean
       required:
         - id
         - name
-        - display_name
         - container
         - restart_policy
         - replicas
         - current_state
         - create_time
         - update_time
+        - autostart_policy
       type: object
       x-speakeasy-entity: ContainerGroup
     ContainerGroupInstanceStatusCount:

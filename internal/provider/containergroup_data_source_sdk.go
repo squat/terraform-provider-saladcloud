@@ -9,6 +9,7 @@ import (
 )
 
 func (r *ContainerGroupDataSourceModel) RefreshFromGetResponse(resp *shared.ContainerGroup) {
+	r.AutostartPolicy = types.BoolValue(resp.AutostartPolicy)
 	r.Container.Command = nil
 	for _, v := range resp.Container.Command {
 		r.Container.Command = append(r.Container.Command, types.StringValue(v))
@@ -73,7 +74,11 @@ func (r *ContainerGroupDataSourceModel) RefreshFromGetResponse(resp *shared.Cont
 	r.CurrentState.InstanceStatusCount.RunningCount = types.Int64Value(resp.CurrentState.InstanceStatusCount.RunningCount)
 	r.CurrentState.StartTime = types.StringValue(resp.CurrentState.StartTime.Format(time.RFC3339Nano))
 	r.CurrentState.Status = types.StringValue(string(resp.CurrentState.Status))
-	r.DisplayName = types.StringValue(resp.DisplayName)
+	if resp.DisplayName != nil {
+		r.DisplayName = types.StringValue(*resp.DisplayName)
+	} else {
+		r.DisplayName = types.StringNull()
+	}
 	r.ID = types.StringValue(resp.ID)
 	if resp.LivenessProbe == nil {
 		r.LivenessProbe = nil
