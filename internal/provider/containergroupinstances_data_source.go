@@ -8,13 +8,10 @@ import (
 	"github.com/squat/terraform-provider-saladcloud/internal/sdk"
 	"github.com/squat/terraform-provider-saladcloud/internal/sdk/pkg/models/operations"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/squat/terraform-provider-saladcloud/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -59,20 +56,11 @@ func (r *ContainerGroupInstancesDataSource) Schema(ctx context.Context, req data
 						},
 						"state": schema.StringAttribute{
 							Computed: true,
-							Validators: []validator.String{
-								stringvalidator.OneOf(
-									"creating",
-									"running",
-								),
-							},
 							MarkdownDescription: `must be one of ["creating", "running"]` + "\n" +
 								`The state of the container group instance`,
 						},
 						"update_time": schema.StringAttribute{
-							Computed: true,
-							Validators: []validator.String{
-								validators.IsRFC3339(),
-							},
+							Computed:    true,
 							Description: `The UTC date & time when the workload on this machine transitioned to the current state`,
 						},
 					},

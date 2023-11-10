@@ -81,8 +81,6 @@ func parseStructTag(tagKey string, field reflect.StructField) map[string]string 
 			parts = append(parts, "true")
 		case 2:
 			// key=value option
-			//lint:ignore SA4011 this is generated code
-			break
 		default:
 			// invalid option
 			continue
