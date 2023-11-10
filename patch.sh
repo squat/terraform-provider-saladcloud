@@ -1,5 +1,7 @@
 #! /usr/bin/env sh
 # General Patches
+bin/yq -i '.info.title = "SaladCloud Provider"' saladcloud.yaml
+bin/yq -i '.info.description = "The SaladCloud provider enables declaratively managing resources provided by SaladCloud. The provider needs to be configured with the proper credentials before it can be used.\n\nFor information on obtaining an API key for SaladCloud, refer to [Authentication](https://docs.salad.com/reference/api-reference#authentication) from the [SaladCloud Documentation](https://docs.salad.com/)."' saladcloud.yaml
 bin/yq -i '.components.schemas.ContainerResourceRequirements.properties.memory.maximum = 30720' saladcloud.yaml
 bin/yq -i '.components.schemas.ContainerResourceRequirements.properties.gpu_class.deprecated = true' saladcloud.yaml
 bin/yq -i '.components.schemas.ContainerResourceRequirements.properties.gpu_classes = {"nullable": true, "type": "array", "items": {"type": "string"}}' saladcloud.yaml

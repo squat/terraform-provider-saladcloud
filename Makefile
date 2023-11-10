@@ -137,3 +137,5 @@ files.gen: saladcloud.yaml $(SPEAKEASY_BINARY) gen.yaml
 
 docs/index.md: files.gen $(SRC)
 	go generate
+	sed -i 's/saladcloud Provider/SaladCloud Provider/' docs/index.md
+	grep --fixed-strings "# Configuration options" --recursive --exclude-dir bin --files-with-matches | xargs sed -i '/^\s*# Configuration options/a \ \ api_key_auth = "some_saladcloud_api_key"'
