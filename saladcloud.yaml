@@ -1938,9 +1938,12 @@ info:
     email: support@salad.com
     name: Salad Support
     url: https://support.salad.com
-  description: The SaladCloud Public API.
+  description: |-
+    The SaladCloud provider enables declaratively managing resources provided by SaladCloud. The provider needs to be configured with the proper credentials before it can be used.
+
+    For information on obtaining an API key for SaladCloud, refer to [Authentication](https://docs.salad.com/reference/api-reference#authentication) from the [SaladCloud Documentation](https://docs.salad.com/).
   termsOfService: https://salad.com/terms
-  title: SaladCloud Public API
+  title: SaladCloud Provider
   version: 1.0.0-alpha.56
 openapi: 3.0.3
 paths:

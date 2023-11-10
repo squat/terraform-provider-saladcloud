@@ -61,7 +61,9 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 	return ServerList[c.ServerIndex], nil
 }
 
-// SDK - SaladCloud Public API: The SaladCloud Public API.
+// SDK - SaladCloud Provider: The SaladCloud provider enables declaratively managing resources provided by SaladCloud. The provider needs to be configured with the proper credentials before it can be used.
+//
+// For information on obtaining an API key for SaladCloud, refer to [Authentication](https://docs.salad.com/reference/api-reference#authentication) from the [SaladCloud Documentation](https://docs.salad.com/).
 type SDK struct {
 	// Auxiliary organization data and info
 	OrganizationData *OrganizationData
