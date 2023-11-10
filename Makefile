@@ -115,7 +115,7 @@ $(YQ_BINARY):
 	go build -o $@ github.com/mikefarah/yq/v4
 
 $(SPEAKEASY_BINARY):
-	cd $(@D) && curl https://github.com/speakeasy-api/speakeasy/releases/download/v1.116.0/speakeasy_$(OS)_$(ARCH).zip -L -o speakeasy.zip && unzip -o speakeasy.zip $(@F) && rm speakeasy.zip ; chmod +x $(@F)
+	cd $(@D) && curl https://github.com/speakeasy-api/speakeasy/releases/download/v1.118.3/speakeasy_$(OS)_$(ARCH).zip -L -o speakeasy.zip && unzip -o speakeasy.zip $(@F) && rm speakeasy.zip ; chmod +x $(@F)
 
 $(GOJSONTOYAML_BINARY):
 	go build -o $@ github.com/brancz/gojsontoyaml
@@ -128,10 +128,6 @@ saladcloud.yaml: saladcloud.json $(GOJSONTOYAML_BINARY) $(YQ_BINARY) patch.sh
 
 files.gen: saladcloud.yaml $(SPEAKEASY_BINARY)
 	$(SPEAKEASY_BINARY) generate sdk --lang terraform --schema $< --out .
-	# Workaround for https://github.com/speakeasy-api/speakeasy/issues/326
-	find . -type f -name '*' -not -path "./bin/*" | parallel chmod -x
-	sed -i '\|-0\.0|i //lint:ignore SA4026 this is generated code' internal/provider/reflect/number.go
-	sed -i '\|// key=value option|a //lint:ignore SA4011 this is generated code' internal/sdk/pkg/utils/utils.go
 	# Add tools.
 	sed -i '\|// Documentation generation|i _ "honnef.co/go/tools/cmd/staticcheck"' tools/tools.go
 	sed -i '\|// Documentation generation|i _ "github.com/mikefarah/yq/v4"' tools/tools.go
