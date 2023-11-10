@@ -92,7 +92,8 @@ func (r *RecipeDeploymentResource) Schema(ctx context.Context, req resource.Sche
 						},
 					},
 					"status": schema.StringAttribute{
-						Computed: true,
+						Computed:    true,
+						Description: `must be one of ["pending", "running", "stopped", "succeeded", "failed", "deploying"]`,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"pending",
@@ -103,7 +104,6 @@ func (r *RecipeDeploymentResource) Schema(ctx context.Context, req resource.Sche
 								"deploying",
 							),
 						},
-						Description: `must be one of ["pending", "running", "stopped", "succeeded", "failed", "deploying"]`,
 					},
 				},
 				Description: `Represents a container group state`,
@@ -143,13 +143,13 @@ func (r *RecipeDeploymentResource) Schema(ctx context.Context, req resource.Sche
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
-						Required: true,
+						Required:    true,
+						Description: `must be one of ["http"]`,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"http",
 							),
 						},
-						Description: `must be one of ["http"]`,
 					},
 				},
 				Description: `Represents recipe networking parameters`,
@@ -186,13 +186,13 @@ func (r *RecipeDeploymentResource) Schema(ctx context.Context, req resource.Sche
 								Computed: true,
 							},
 							"protocol": schema.StringAttribute{
-								Computed: true,
+								Computed:    true,
+								Description: `must be one of ["http"]`,
 								Validators: []validator.String{
 									stringvalidator.OneOf(
 										"http",
 									),
 								},
-								Description: `must be one of ["http"]`,
 							},
 						},
 						Description: `Represents recipe networking parameters`,

@@ -334,7 +334,8 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 						},
 					},
 					"status": schema.StringAttribute{
-						Computed: true,
+						Computed:    true,
+						Description: `must be one of ["pending", "running", "stopped", "succeeded", "failed", "deploying"]`,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"pending",
@@ -345,7 +346,6 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 								"deploying",
 							),
 						},
-						Description: `must be one of ["pending", "running", "stopped", "succeeded", "failed", "deploying"]`,
 					},
 				},
 				Description: `Represents a container group state`,
@@ -453,13 +453,13 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 								PlanModifiers: []planmodifier.String{
 									stringplanmodifier.RequiresReplace(),
 								},
-								Optional: true,
+								Optional:    true,
+								Description: `must be one of ["http"]`,
 								Validators: []validator.String{
 									stringvalidator.OneOf(
 										"http",
 									),
 								},
-								Description: `must be one of ["http"]`,
 							},
 						},
 					},
@@ -534,13 +534,13 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
-						Required: true,
+						Required:    true,
+						Description: `must be one of ["http"]`,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"http",
 							),
 						},
-						Description: `must be one of ["http"]`,
 					},
 				},
 				Description: `Represents container group networking parameters`,
@@ -650,13 +650,13 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 								PlanModifiers: []planmodifier.String{
 									stringplanmodifier.RequiresReplace(),
 								},
-								Optional: true,
+								Optional:    true,
+								Description: `must be one of ["http"]`,
 								Validators: []validator.String{
 									stringvalidator.OneOf(
 										"http",
 									),
 								},
-								Description: `must be one of ["http"]`,
 							},
 						},
 					},
@@ -709,7 +709,8 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Required: true,
+				Required:    true,
+				Description: `must be one of ["always", "on_failure", "never"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"always",
@@ -717,7 +718,6 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 						"never",
 					),
 				},
-				Description: `must be one of ["always", "on_failure", "never"]`,
 			},
 			"startup_probe": schema.SingleNestedAttribute{
 				Computed: true,
@@ -816,13 +816,13 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 								PlanModifiers: []planmodifier.String{
 									stringplanmodifier.RequiresReplace(),
 								},
-								Optional: true,
+								Optional:    true,
+								Description: `must be one of ["http"]`,
 								Validators: []validator.String{
 									stringvalidator.OneOf(
 										"http",
 									),
 								},
-								Description: `must be one of ["http"]`,
 							},
 						},
 					},

@@ -10,10 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"github.com/squat/terraform-provider-saladcloud/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -73,10 +71,7 @@ func (r *QuotasDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				},
 			},
 			"create_time": schema.StringAttribute{
-				Computed: true,
-				Validators: []validator.String{
-					validators.IsRFC3339(),
-				},
+				Computed:    true,
 				Description: `The time the resource was created`,
 			},
 			"organization_name": schema.StringAttribute{
@@ -95,10 +90,7 @@ func (r *QuotasDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				},
 			},
 			"update_time": schema.StringAttribute{
-				Computed: true,
-				Validators: []validator.String{
-					validators.IsRFC3339(),
-				},
+				Computed:    true,
 				Description: `The time the resource was last updated`,
 			},
 		},
