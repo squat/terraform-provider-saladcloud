@@ -13,7 +13,7 @@ features:
     globalSecurity: 2.81.1
     globalServerURLs: 2.82.0
 terraform:
-  version: 0.1.1
+  version: 0.2.0
   author: squat
   imports:
     option: openapi
