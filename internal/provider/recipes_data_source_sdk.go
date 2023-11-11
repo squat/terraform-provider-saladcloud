@@ -8,8 +8,10 @@ import (
 )
 
 func (r *RecipesDataSourceModel) RefreshFromGetResponse(resp *shared.RecipeList) {
-	r.Items = nil
-	for _, itemsItem := range resp.Items {
+	if len(r.Items) > len(resp.Items) {
+		r.Items = r.Items[:len(resp.Items)]
+	}
+	for itemsCount, itemsItem := range resp.Items {
 		var items1 Recipe
 		items1.ID = types.StringValue(itemsItem.ID)
 		items1.Name = types.StringValue(itemsItem.Name)
@@ -31,6 +33,14 @@ func (r *RecipesDataSourceModel) RefreshFromGetResponse(resp *shared.RecipeList)
 			items1.Resources.GpuClass = types.StringValue(itemsItem.Resources.GpuClass)
 			items1.Resources.RAM = types.Int64Value(itemsItem.Resources.RAM)
 		}
-		r.Items = append(r.Items, items1)
+		if itemsCount+1 > len(r.Items) {
+			r.Items = append(r.Items, items1)
+		} else {
+			r.Items[itemsCount].ID = items1.ID
+			r.Items[itemsCount].Name = items1.Name
+			r.Items[itemsCount].Networking = items1.Networking
+			r.Items[itemsCount].Readme = items1.Readme
+			r.Items[itemsCount].Resources = items1.Resources
+		}
 	}
 }

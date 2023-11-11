@@ -8,10 +8,16 @@ import (
 )
 
 func (r *GPUClassesDataSourceModel) RefreshFromGetResponse(resp *shared.GpuClassesList) {
-	r.Items = nil
-	for _, itemsItem := range resp.Items {
+	if len(r.Items) > len(resp.Items) {
+		r.Items = r.Items[:len(resp.Items)]
+	}
+	for itemsCount, itemsItem := range resp.Items {
 		var items1 GpuClass
 		items1.Name = types.StringValue(itemsItem.Name)
-		r.Items = append(r.Items, items1)
+		if itemsCount+1 > len(r.Items) {
+			r.Items = append(r.Items, items1)
+		} else {
+			r.Items[itemsCount].Name = items1.Name
+		}
 	}
 }
