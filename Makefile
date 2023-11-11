@@ -124,7 +124,7 @@ saladcloud.json:
 	curl https://docs.salad.com/reference/saladcloud-openapi-spec?json=on | jq .doc.body -r | head --lines=-1 | tail --lines=+2
 
 saladcloud.yaml: saladcloud.json $(GOJSONTOYAML_BINARY) $(YQ_BINARY) patch.sh
-	cat $< | $(GOJSONTOYAML_BINARY) > $@ && sh patch.sh
+	cat $< | $(GOJSONTOYAML_BINARY) | sh patch.sh > $@
 
 files.gen: saladcloud.yaml $(SPEAKEASY_BINARY) gen.yaml
 	$(SPEAKEASY_BINARY) generate sdk --lang terraform --schema $< --out .
