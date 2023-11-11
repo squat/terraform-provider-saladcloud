@@ -77,11 +77,7 @@ func (r *ContainerGroupsDataSourceModel) RefreshFromGetResponse(resp *shared.Con
 		items1.CurrentState.InstanceStatusCount.RunningCount = types.Int64Value(itemsItem.CurrentState.InstanceStatusCount.RunningCount)
 		items1.CurrentState.StartTime = types.StringValue(itemsItem.CurrentState.StartTime.Format(time.RFC3339Nano))
 		items1.CurrentState.Status = types.StringValue(string(itemsItem.CurrentState.Status))
-		if itemsItem.DisplayName != nil {
-			items1.DisplayName = types.StringValue(*itemsItem.DisplayName)
-		} else {
-			items1.DisplayName = types.StringNull()
-		}
+		items1.DisplayName = types.StringValue(itemsItem.DisplayName)
 		items1.ID = types.StringValue(itemsItem.ID)
 		if itemsItem.LivenessProbe == nil {
 			items1.LivenessProbe = nil

@@ -68,7 +68,10 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 
 		Attributes: map[string]schema.Attribute{
 			"autostart_policy": schema.BoolAttribute{
-				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
+				Required: true,
 			},
 			"container": schema.SingleNestedAttribute{
 				PlanModifiers: []planmodifier.Object{
@@ -77,10 +80,11 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 				Required: true,
 				Attributes: map[string]schema.Attribute{
 					"command": schema.ListAttribute{
+						Computed: true,
 						PlanModifiers: []planmodifier.List{
 							listplanmodifier.RequiresReplace(),
 						},
-						Required:    true,
+						Optional:    true,
 						ElementType: types.StringType,
 					},
 					"environment_variables": schema.MapAttribute{

@@ -4,6 +4,7 @@ package shared
 
 // CreateContainerGroup - Represents a request to create a container group
 type CreateContainerGroup struct {
+	AutostartPolicy bool `json:"autostart_policy"`
 	// Represents a container
 	Container    CreateContainer `json:"container"`
 	CountryCodes []CountryCode   `json:"country_codes,omitempty"`
@@ -19,6 +20,13 @@ type CreateContainerGroup struct {
 	RestartPolicy  ContainerRestartPolicy `json:"restart_policy"`
 	// Represents container group probe
 	StartupProbe *ContainerGroupProbe `json:"startup_probe,omitempty"`
+}
+
+func (o *CreateContainerGroup) GetAutostartPolicy() bool {
+	if o == nil {
+		return false
+	}
+	return o.AutostartPolicy
 }
 
 func (o *CreateContainerGroup) GetContainer() CreateContainer {

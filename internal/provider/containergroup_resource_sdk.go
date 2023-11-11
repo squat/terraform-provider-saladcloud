@@ -9,6 +9,7 @@ import (
 )
 
 func (r *ContainerGroupResourceModel) ToCreateSDKType() *shared.CreateContainerGroup {
+	autostartPolicy := r.AutostartPolicy.ValueBool()
 	var command []string = nil
 	for _, commandItem := range r.Container.Command {
 		command = append(command, commandItem.ValueString())
@@ -361,16 +362,17 @@ func (r *ContainerGroupResourceModel) ToCreateSDKType() *shared.CreateContainerG
 		}
 	}
 	out := shared.CreateContainerGroup{
-		Container:      container,
-		CountryCodes:   countryCodes,
-		DisplayName:    displayName,
-		LivenessProbe:  livenessProbe,
-		Name:           name1,
-		Networking:     networking,
-		ReadinessProbe: readinessProbe,
-		Replicas:       replicas,
-		RestartPolicy:  restartPolicy,
-		StartupProbe:   startupProbe,
+		AutostartPolicy: autostartPolicy,
+		Container:       container,
+		CountryCodes:    countryCodes,
+		DisplayName:     displayName,
+		LivenessProbe:   livenessProbe,
+		Name:            name1,
+		Networking:      networking,
+		ReadinessProbe:  readinessProbe,
+		Replicas:        replicas,
+		RestartPolicy:   restartPolicy,
+		StartupProbe:    startupProbe,
 	}
 	return &out
 }
@@ -471,11 +473,7 @@ func (r *ContainerGroupResourceModel) RefreshFromGetResponse(resp *shared.Contai
 	r.CurrentState.InstanceStatusCount.RunningCount = types.Int64Value(resp.CurrentState.InstanceStatusCount.RunningCount)
 	r.CurrentState.StartTime = types.StringValue(resp.CurrentState.StartTime.Format(time.RFC3339Nano))
 	r.CurrentState.Status = types.StringValue(string(resp.CurrentState.Status))
-	if resp.DisplayName != nil {
-		r.DisplayName = types.StringValue(*resp.DisplayName)
-	} else {
-		r.DisplayName = types.StringNull()
-	}
+	r.DisplayName = types.StringValue(resp.DisplayName)
 	r.ID = types.StringValue(resp.ID)
 	if resp.LivenessProbe == nil {
 		r.LivenessProbe = nil
