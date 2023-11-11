@@ -1,5 +1,5 @@
 export GO111MODULE=on
-.PHONY: clean fmt lint test unit vendor
+.PHONY: clean fmt generate lint test unit vendor
 
 ARCH ?= amd64
 OS ?= linux
@@ -20,9 +20,15 @@ endif
 DIRTY := $(shell test -z "$$(git diff --shortstat 2>/dev/null)" || echo -dirty)
 VERSION := $(VERSION)$(DIRTY)
 LD_FLAGS := -ldflags "-X main.Version=$(VERSION) -extldflags -static"
-SRC := $(shell find . -type f -name '*.go' -not -path "./vendor/*")
-GO_FILES ?= $$(find . -name '*.go' -not -path './vendor/*')
-GO_PKGS ?= $$(go list ./... | grep -v "$(PKG)/vendor")
+GO_FILES := $(shell find . -name '*.go' -not -path './vendor/*')
+GO_PKGS := $(shell go list ./... | grep -v "$(PKG)/vendor")
+EXAMPLES := $(shell find examples -type f -name '*.tf')
+SPEAKEASY_FILES := $(shell cat files.gen)
+DOCS := $(shell find docs -type f -name '*.md')
+ifeq ($(DOCS),)
+DOCS := docs/index.md
+endif
+GENERATED := $(SPEAKEASY_FILES) $(DOCS) files.gen
 
 STATICCHECK_BINARY := bin/staticcheck
 YQ_BINARY := bin/yq
@@ -54,7 +60,7 @@ ifeq ($(CONTAINERIZE_BUILD), true)
 	BUILD_SUFIX := '
 endif
 
-$(BINS): $(SRC) go.mod files.gen
+$(BINS): $(GO_FILES) go.mod | files.gen
 	@mkdir -p bin/$(ARCH)
 	@echo "building: $@"
 	@$(BUILD_PREFIX) \
@@ -115,7 +121,7 @@ $(YQ_BINARY):
 	go build -o $@ github.com/mikefarah/yq/v4
 
 $(SPEAKEASY_BINARY):
-	cd $(@D) && curl https://github.com/speakeasy-api/speakeasy/releases/download/v1.118.3/speakeasy_$(OS)_$(ARCH).zip -L -o speakeasy.zip && unzip -o speakeasy.zip $(@F) && rm speakeasy.zip ; chmod +x $(@F)
+	cd $(@D) && curl https://github.com/speakeasy-api/speakeasy/releases/download/v1.119.0/speakeasy_$(OS)_$(ARCH).zip -L -o speakeasy.zip && unzip -o speakeasy.zip $(@F) && rm speakeasy.zip ; chmod +x $(@F)
 
 $(GOJSONTOYAML_BINARY):
 	go build -o $@ github.com/brancz/gojsontoyaml
@@ -126,16 +132,18 @@ saladcloud.json:
 saladcloud.yaml: saladcloud.json $(GOJSONTOYAML_BINARY) $(YQ_BINARY) patch.sh
 	cat $< | $(GOJSONTOYAML_BINARY) | sh patch.sh > $@
 
-files.gen: saladcloud.yaml $(SPEAKEASY_BINARY) gen.yaml
+$(SPEAKEASY_FILES) files.gen &: saladcloud.yaml $(SPEAKEASY_BINARY)
 	$(SPEAKEASY_BINARY) generate sdk --lang terraform --schema $< --out .
 	# Add tools.
 	sed -i '\|// Documentation generation|i _ "honnef.co/go/tools/cmd/staticcheck"' tools/tools.go
 	sed -i '\|// Documentation generation|i _ "github.com/mikefarah/yq/v4"' tools/tools.go
 	sed -i '\|// Documentation generation|i _ "github.com/brancz/gojsontoyaml"' tools/tools.go
+	grep "some_saladcloud_api_key" --files-without-match $$(grep "# Configuration options" --recursive --exclude-dir bin --files-with-matches .) | xargs sed -i '/^\s*# Configuration options/a \ \ api_key_auth = "some_saladcloud_api_key"'
 	$(MAKE) fmt
 	$(MAKE) vendor
 
-docs/index.md: files.gen $(SRC)
+$(DOCS) &: $(EXAMPLES) $(SPEAKEASY_FILES) | files.gen
 	go generate
 	sed -i 's/saladcloud Provider/SaladCloud Provider/' docs/index.md
-	grep --fixed-strings "# Configuration options" --recursive --exclude-dir bin --files-with-matches | xargs sed -i '/^\s*# Configuration options/a \ \ api_key_auth = "some_saladcloud_api_key"'
+
+generate: $(GENERATED)

@@ -49,7 +49,6 @@ jobs:
       env:
         SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
       run: |
-        make files.gen
-        make docs/index.md
+        make generate
         git diff --exit-code
         [ -z "$(git ls-files --other --exclude-standard --directory)" ]
