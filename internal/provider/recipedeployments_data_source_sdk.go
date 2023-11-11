@@ -9,8 +9,10 @@ import (
 )
 
 func (r *RecipeDeploymentsDataSourceModel) RefreshFromGetResponse(resp *shared.RecipeDeploymentList) {
-	r.Items = nil
-	for _, itemsItem := range resp.Items {
+	if len(r.Items) > len(resp.Items) {
+		r.Items = r.Items[:len(resp.Items)]
+	}
+	for itemsCount, itemsItem := range resp.Items {
 		var items1 RecipeDeployment
 		if itemsItem.CurrentState.Description != nil {
 			items1.CurrentState.Description = types.StringValue(*itemsItem.CurrentState.Description)
@@ -56,6 +58,16 @@ func (r *RecipeDeploymentsDataSourceModel) RefreshFromGetResponse(resp *shared.R
 			items1.Recipe.Resources.RAM = types.Int64Value(itemsItem.Recipe.Resources.RAM)
 		}
 		items1.Replicas = types.Int64Value(itemsItem.Replicas)
-		r.Items = append(r.Items, items1)
+		if itemsCount+1 > len(r.Items) {
+			r.Items = append(r.Items, items1)
+		} else {
+			r.Items[itemsCount].CurrentState = items1.CurrentState
+			r.Items[itemsCount].DisplayName = items1.DisplayName
+			r.Items[itemsCount].ID = items1.ID
+			r.Items[itemsCount].Name = items1.Name
+			r.Items[itemsCount].Networking = items1.Networking
+			r.Items[itemsCount].Recipe = items1.Recipe
+			r.Items[itemsCount].Replicas = items1.Replicas
+		}
 	}
 }

@@ -9,12 +9,20 @@ import (
 )
 
 func (r *RecipeDeploymentInstancesDataSourceModel) RefreshFromGetResponse(resp *shared.RecipeDeploymentInstances) {
-	r.Instances = nil
-	for _, instancesItem := range resp.Instances {
+	if len(r.Instances) > len(resp.Instances) {
+		r.Instances = r.Instances[:len(resp.Instances)]
+	}
+	for instancesCount, instancesItem := range resp.Instances {
 		var instances1 Instances
 		instances1.MachineID = types.StringValue(instancesItem.MachineID)
 		instances1.State = types.StringValue(string(instancesItem.State))
 		instances1.UpdateTime = types.StringValue(instancesItem.UpdateTime.Format(time.RFC3339Nano))
-		r.Instances = append(r.Instances, instances1)
+		if instancesCount+1 > len(r.Instances) {
+			r.Instances = append(r.Instances, instances1)
+		} else {
+			r.Instances[instancesCount].MachineID = instances1.MachineID
+			r.Instances[instancesCount].State = instances1.State
+			r.Instances[instancesCount].UpdateTime = instances1.UpdateTime
+		}
 	}
 }

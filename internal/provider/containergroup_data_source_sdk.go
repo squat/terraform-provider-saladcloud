@@ -101,12 +101,19 @@ func (r *ContainerGroupDataSourceModel) RefreshFromGetResponse(resp *shared.Cont
 			r.LivenessProbe.HTTP = nil
 		} else {
 			r.LivenessProbe.HTTP = &ContainerGroupProbeHTTP{}
-			r.LivenessProbe.HTTP.Headers = nil
-			for _, headersItem := range resp.LivenessProbe.HTTP.Headers {
+			if len(r.LivenessProbe.HTTP.Headers) > len(resp.LivenessProbe.HTTP.Headers) {
+				r.LivenessProbe.HTTP.Headers = r.LivenessProbe.HTTP.Headers[:len(resp.LivenessProbe.HTTP.Headers)]
+			}
+			for headersCount, headersItem := range resp.LivenessProbe.HTTP.Headers {
 				var headers1 HTTPHeaders
 				headers1.Name = types.StringValue(headersItem.Name)
 				headers1.Value = types.StringValue(headersItem.Value)
-				r.LivenessProbe.HTTP.Headers = append(r.LivenessProbe.HTTP.Headers, headers1)
+				if headersCount+1 > len(r.LivenessProbe.HTTP.Headers) {
+					r.LivenessProbe.HTTP.Headers = append(r.LivenessProbe.HTTP.Headers, headers1)
+				} else {
+					r.LivenessProbe.HTTP.Headers[headersCount].Name = headers1.Name
+					r.LivenessProbe.HTTP.Headers[headersCount].Value = headers1.Value
+				}
 			}
 			r.LivenessProbe.HTTP.Path = types.StringValue(resp.LivenessProbe.HTTP.Path)
 			r.LivenessProbe.HTTP.Port = types.Int64Value(resp.LivenessProbe.HTTP.Port)
@@ -162,12 +169,19 @@ func (r *ContainerGroupDataSourceModel) RefreshFromGetResponse(resp *shared.Cont
 			r.ReadinessProbe.HTTP = nil
 		} else {
 			r.ReadinessProbe.HTTP = &ContainerGroupProbeHTTP{}
-			r.ReadinessProbe.HTTP.Headers = nil
-			for _, headersItem1 := range resp.ReadinessProbe.HTTP.Headers {
+			if len(r.ReadinessProbe.HTTP.Headers) > len(resp.ReadinessProbe.HTTP.Headers) {
+				r.ReadinessProbe.HTTP.Headers = r.ReadinessProbe.HTTP.Headers[:len(resp.ReadinessProbe.HTTP.Headers)]
+			}
+			for headersCount1, headersItem1 := range resp.ReadinessProbe.HTTP.Headers {
 				var headers3 HTTPHeaders
 				headers3.Name = types.StringValue(headersItem1.Name)
 				headers3.Value = types.StringValue(headersItem1.Value)
-				r.ReadinessProbe.HTTP.Headers = append(r.ReadinessProbe.HTTP.Headers, headers3)
+				if headersCount1+1 > len(r.ReadinessProbe.HTTP.Headers) {
+					r.ReadinessProbe.HTTP.Headers = append(r.ReadinessProbe.HTTP.Headers, headers3)
+				} else {
+					r.ReadinessProbe.HTTP.Headers[headersCount1].Name = headers3.Name
+					r.ReadinessProbe.HTTP.Headers[headersCount1].Value = headers3.Value
+				}
 			}
 			r.ReadinessProbe.HTTP.Path = types.StringValue(resp.ReadinessProbe.HTTP.Path)
 			r.ReadinessProbe.HTTP.Port = types.Int64Value(resp.ReadinessProbe.HTTP.Port)
@@ -215,12 +229,19 @@ func (r *ContainerGroupDataSourceModel) RefreshFromGetResponse(resp *shared.Cont
 			r.StartupProbe.HTTP = nil
 		} else {
 			r.StartupProbe.HTTP = &ContainerGroupProbeHTTP{}
-			r.StartupProbe.HTTP.Headers = nil
-			for _, headersItem2 := range resp.StartupProbe.HTTP.Headers {
+			if len(r.StartupProbe.HTTP.Headers) > len(resp.StartupProbe.HTTP.Headers) {
+				r.StartupProbe.HTTP.Headers = r.StartupProbe.HTTP.Headers[:len(resp.StartupProbe.HTTP.Headers)]
+			}
+			for headersCount2, headersItem2 := range resp.StartupProbe.HTTP.Headers {
 				var headers5 HTTPHeaders
 				headers5.Name = types.StringValue(headersItem2.Name)
 				headers5.Value = types.StringValue(headersItem2.Value)
-				r.StartupProbe.HTTP.Headers = append(r.StartupProbe.HTTP.Headers, headers5)
+				if headersCount2+1 > len(r.StartupProbe.HTTP.Headers) {
+					r.StartupProbe.HTTP.Headers = append(r.StartupProbe.HTTP.Headers, headers5)
+				} else {
+					r.StartupProbe.HTTP.Headers[headersCount2].Name = headers5.Name
+					r.StartupProbe.HTTP.Headers[headersCount2].Value = headers5.Value
+				}
 			}
 			r.StartupProbe.HTTP.Path = types.StringValue(resp.StartupProbe.HTTP.Path)
 			r.StartupProbe.HTTP.Port = types.Int64Value(resp.StartupProbe.HTTP.Port)
