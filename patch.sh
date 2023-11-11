@@ -15,9 +15,11 @@ bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/c
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}"].patch.x-speakeasy-entity-operation = "ContainerGroup#update"' "$F"
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}"].delete.x-speakeasy-entity-operation = "ContainerGroup#delete"' "$F"
 bin/yq -i '.components.schemas.ContainerGroup.x-speakeasy-entity = "ContainerGroup"' "$F"
+bin/yq -i '.components.schemas.CreateContainerGroup.x-speakeasy-entity = "ContainerGroup"' "$F"
 bin/yq -i '.components.schemas.ContainerGroup.properties.autostart_policy = {"type": "boolean"}' "$F"
-bin/yq -i 'del(.components.schemas.ContainerGroup.required[] | select(. == "display_name"))' "$F"
 bin/yq -i '.components.schemas.ContainerGroup.required += ["autostart_policy"]' "$F"
+bin/yq -i '.components.schemas.CreateContainerGroup.properties.autostart_policy = {"type": "boolean"}' "$F"
+bin/yq -i '.components.schemas.CreateContainerGroup.required += ["autostart_policy"]' "$F"
 bin/yq -i '.components.parameters.container_group_name.x-speakeasy-match = "name"' "$F"
 # Container Group Instances
 bin/yq -i '.paths.["/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances"].get.x-speakeasy-entity-operation = "ContainerGroupInstances#read"' "$F"
