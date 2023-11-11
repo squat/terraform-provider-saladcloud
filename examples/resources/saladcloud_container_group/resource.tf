@@ -1,11 +1,12 @@
 resource "saladcloud_container_group" "my_containergroup" {
+  autostart_policy = false
   container = {
     command = [
       "...",
     ]
     environment_variables = {
-      "Northeast" = "..."
-      "Cadillac"  = "..."
+      "transmit" = "..."
+      "salmon"   = "..."
     }
     image = "...my_image..."
     logging = {
@@ -19,7 +20,7 @@ resource "saladcloud_container_group" "my_containergroup" {
       }
       tcp = {
         host = "...my_host..."
-        port = 6
+        port = 4
       }
     }
     registry_authentication = {
@@ -29,27 +30,27 @@ resource "saladcloud_container_group" "my_containergroup" {
       }
       basic = {
         password = "...my_password..."
-        username = "Gregorio42"
+        username = "Jerel_Haag"
       }
       docker_hub = {
         personal_access_token = "...my_personal_access_token..."
-        username              = "Letitia20"
+        username              = "Jonatan60"
       }
       gcp_gcr = {
         service_key = "...my_service_key..."
       }
     }
     resources = {
-      cpu       = 6
+      cpu       = 9
       gpu_class = "...my_gpu_class..."
       gpu_classes = [
         "...",
       ]
-      memory = 9
+      memory = 5
     }
   }
   country_codes = [
-    "la",
+    "cg",
   ]
   display_name = "...my_display_name..."
   liveness_probe = {
@@ -58,35 +59,35 @@ resource "saladcloud_container_group" "my_containergroup" {
         "...",
       ]
     }
-    failure_threshold = 2
+    failure_threshold = 10
     grpc = {
-      port    = 10
+      port    = 1
       service = "...my_service..."
     }
     http = {
       headers = [
         {
-          name  = "Maxine Aufderhar"
+          name  = "Thomas Larkin"
           value = "...my_value..."
         },
       ]
       path   = "...my_path..."
-      port   = 5
+      port   = 1
       scheme = "http"
     }
-    initial_delay_seconds = 1
-    period_seconds        = 5
-    success_threshold     = 3
+    initial_delay_seconds = 5
+    period_seconds        = 3
+    success_threshold     = 10
     tcp = {
-      port = 10
+      port = 5
     }
-    timeout_seconds = 5
+    timeout_seconds = 9
   }
-  name = "Rick Dickinson"
+  name = "Annie Powlowski"
   networking = {
-    auth     = false
+    auth     = true
     dns      = "...my_dns..."
-    port     = 8
+    port     = 2
     protocol = "http"
   }
   organization_name = "...my_organization_name..."
@@ -97,15 +98,15 @@ resource "saladcloud_container_group" "my_containergroup" {
         "...",
       ]
     }
-    failure_threshold = 2
+    failure_threshold = 10
     grpc = {
-      port    = 10
+      port    = 3
       service = "...my_service..."
     }
     http = {
       headers = [
         {
-          name  = "Mr. Patsy Kuhn"
+          name  = "Cody Auer"
           value = "...my_value..."
         },
       ]

@@ -16,7 +16,7 @@ type ContainerGroup struct {
 	CreateTime   time.Time     `json:"create_time"`
 	// Represents a container group state
 	CurrentState ContainerGroupState `json:"current_state"`
-	DisplayName  *string             `json:"display_name,omitempty"`
+	DisplayName  string              `json:"display_name"`
 	ID           string              `json:"id"`
 	// Represents container group probe
 	LivenessProbe *ContainerGroupProbe `json:"liveness_probe,omitempty"`
@@ -78,9 +78,9 @@ func (o *ContainerGroup) GetCurrentState() ContainerGroupState {
 	return o.CurrentState
 }
 
-func (o *ContainerGroup) GetDisplayName() *string {
+func (o *ContainerGroup) GetDisplayName() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.DisplayName
 }

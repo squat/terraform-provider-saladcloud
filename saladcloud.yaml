@@ -735,6 +735,7 @@ components:
       required:
         - id
         - name
+        - display_name
         - container
         - restart_policy
         - replicas
@@ -1421,12 +1422,16 @@ components:
           $ref: '#/components/schemas/ContainerRestartPolicy'
         startup_probe:
           $ref: '#/components/schemas/ContainerGroupProbe'
+        autostart_policy:
+          type: boolean
       required:
         - name
         - container
         - restart_policy
         - replicas
+        - autostart_policy
       type: object
+      x-speakeasy-entity: ContainerGroup
     CreateContainerGroupNetworking:
       additionalProperties: false
       description: Represents container group networking parameters
