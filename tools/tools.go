@@ -5,9 +5,6 @@
 package tools
 
 import (
-	_ "github.com/brancz/gojsontoyaml"
-	_ "github.com/mikefarah/yq/v4"
-	_ "honnef.co/go/tools/cmd/staticcheck"
 	// Documentation generation
 	_ "github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs"
 )

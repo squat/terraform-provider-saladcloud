@@ -59,7 +59,7 @@ func (o *CreateRecipeDeploymentResponse) GetContentType() string {
 
 func (o *CreateRecipeDeploymentResponse) GetHeaders() map[string][]string {
 	if o == nil {
-		return nil
+		return map[string][]string{}
 	}
 	return o.Headers
 }

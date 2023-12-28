@@ -4,7 +4,7 @@ The Terraform provider for SaladCloud enables the declarative management of reso
 
 [![Build Status](https://github.com/squat/terraform-provider-saladcloud/workflows/CI/badge.svg)](https://github.com/squat/terraform-provider-saladcloud/actions?query=workflow%3ACI)
 
-<!-- Start SDK Installation -->
+<!-- Start SDK Installation [installation] -->
 ## SDK Installation
 
 To install this provider, copy and paste this code into your Terraform configuration. Then, run `terraform init`.
@@ -21,15 +21,15 @@ terraform {
 
 provider "saladcloud" {
   # Configuration options
-  api_key_auth = "some_saladcloud_api_key"
 }
 ```
-<!-- End SDK Installation -->
+<!-- End SDK Installation [installation] -->
 
 
 
+<!-- Start SDK Example Usage [usage] -->
 ## SDK Example Usage
-<!-- Start SDK Example Usage -->
+
 ### Testing the provider locally
 
 Should you want to validate a change locally, the `--debug` flag allows you to execute the provider against a terraform instance locally.
@@ -46,13 +46,15 @@ cd examples/your-example
 TF_REATTACH_PROVIDERS=... terraform init
 TF_REATTACH_PROVIDERS=... terraform apply
 ```
-<!-- End SDK Example Usage -->
+<!-- End SDK Example Usage [usage] -->
 
 
 
-<!-- Start SDK Available Operations -->
+<!-- Start Available Resources and Operations [operations] -->
+## Available Resources and Operations
 
-<!-- End SDK Available Operations -->
+
+<!-- End Available Resources and Operations [operations] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 
@@ -64,7 +66,7 @@ Terraform searches for the `.terraformrc` file in your home directory and applie
 provider_installation {
 
   dev_overrides {
-      "registry.terraform.io/github.com/squat/terraform-provider-saladcloud/scaffolding" = "<PATH>"
+      "squat/saladcloud" = "<PATH>"
   }
 
   # For all other providers, install them directly from their origin provider

@@ -66,7 +66,7 @@ func (o *CreateContainerGroupResponse) GetContentType() string {
 
 func (o *CreateContainerGroupResponse) GetHeaders() map[string][]string {
 	if o == nil {
-		return nil
+		return map[string][]string{}
 	}
 	return o.Headers
 }
