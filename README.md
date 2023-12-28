@@ -21,6 +21,7 @@ terraform {
 
 provider "saladcloud" {
   # Configuration options
+  api_key = "some_saladcloud_api_key"
 }
 ```
 <!-- End SDK Installation [installation] -->

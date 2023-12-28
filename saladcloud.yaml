@@ -1936,7 +1936,7 @@ components:
       nullable: true
       type: string
   securitySchemes:
-    ApiKeyAuth:
+    apiKey:
       in: header
       name: Salad-Api-Key
       type: apiKey
@@ -2507,7 +2507,7 @@ paths:
       - $ref: '#/components/parameters/recipe_name'
     summary: Recipes
 security:
-  - ApiKeyAuth: []
+  - apiKey: []
 servers:
   - url: https://api.salad.com/api/public
 tags:
