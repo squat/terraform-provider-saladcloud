@@ -115,7 +115,7 @@ $(SPEAKEASY_BINARY):
 	mkdir -p $(@D)
 	cd $(@D) && curl https://github.com/speakeasy-api/speakeasy/releases/download/v1.129.1/speakeasy_$(OS)_$(ARCH).zip -L -o speakeasy.zip && unzip -o speakeasy.zip $(@F) && rm speakeasy.zip ; chmod +x $(@F)
 
-saladcloud.yaml: $(GOJSONTOYAML_BINARY) $(YQ_BINARY) patch.sh
+saladcloud.yaml: patch.sh
 	curl https://docs.salad.com/reference/saladcloud-openapi-spec?json=on | sh patch.sh > $@
 
 $(SPEAKEASY_FILES) files.gen &: saladcloud.yaml $(SPEAKEASY_BINARY)
