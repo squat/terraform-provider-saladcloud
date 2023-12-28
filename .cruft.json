@@ -1,0 +1,20 @@
+{
+  "template": "git@github.com:squat/terraform-provider-openapi-scaffolding.git",
+  "commit": "a617e1f6845acad7c6cddd843b5a01e17cd7edac",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "github_username": "squat",
+      "cloud_provider": "SaladCloud",
+      "cloud_provider_url": "https://salad.com/",
+      "openapi_specification_url": "https://docs.salad.com/reference/saladcloud-openapi-spec?json=on",
+      "version": "0.2.0",
+      "_copy_without_render": [
+        ".goreleaser.yml",
+        ".github"
+      ],
+      "_template": "git@github.com:squat/terraform-provider-openapi-scaffolding.git"
+    }
+  },
+  "directory": null
+}

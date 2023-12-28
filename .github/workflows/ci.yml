@@ -32,7 +32,7 @@ jobs:
       with:
         go-version-file: go.mod
     - name: Lint Code
-      run: make vendor lint
+      run: make deps lint
 
   generate:
     runs-on: ubuntu-latest

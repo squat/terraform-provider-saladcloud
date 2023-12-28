@@ -9,5 +9,4 @@ terraform {
 
 provider "saladcloud" {
   # Configuration options
-  api_key_auth = "some_saladcloud_api_key"
 }

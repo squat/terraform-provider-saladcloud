@@ -1,5 +1,5 @@
 export GO111MODULE=on
-.PHONY: clean fmt generate lint test unit vendor
+.PHONY: clean deps fmt generate lint test unit
 
 ARCH ?= amd64
 OS ?= linux
@@ -20,9 +20,8 @@ endif
 DIRTY := $(shell test -z "$$(git diff --shortstat 2>/dev/null)" || echo -dirty)
 VERSION := $(VERSION)$(DIRTY)
 LD_FLAGS := -ldflags "-X main.Version=$(VERSION) -extldflags -static"
-GO_FILES := $(shell find . -name '*.go' -not -path './vendor/*')
-GO_PKGS := $(shell go list ./... | grep -v "$(PKG)/vendor")
-EXAMPLES := $(shell find examples -type f -name '*.tf')
+GO_FILES := $(shell find . -name '*.go')
+GO_PKGS := $(shell go list ./...)
 SPEAKEASY_FILES := $(shell cat files.gen)
 DOCS := $(shell find docs -type f -name '*.md')
 ifeq ($(DOCS),)
@@ -30,10 +29,8 @@ DOCS := docs/index.md
 endif
 GENERATED := $(SPEAKEASY_FILES) $(DOCS) files.gen
 
-STATICCHECK_BINARY := bin/staticcheck
-YQ_BINARY := bin/yq
+STATICCHECK_BINARY := go run honnef.co/go/tools/cmd/staticcheck@2023.1.6
 SPEAKEASY_BINARY := bin/speakeasy
-GOJSONTOYAML_BINARY := bin/gojsontoyaml
 
 GO_VERSION ?= 1.21.3
 BUILD_IMAGE ?= golang:$(GO_VERSION)-alpine
@@ -76,7 +73,7 @@ fmt:
 	@echo $(GO_PKGS)
 	gofmt -w -s $(GO_FILES)
 
-lint: $(STATICCHECK_BINARY)
+lint:
 	@echo 'go vet $(GO_PKGS)'
 	@vet_res=$$(GO111MODULE=on go vet $(GO_PKGS) 2>&1); if [ -n "$$vet_res" ]; then \
 		echo ""; \
@@ -110,40 +107,26 @@ test: lint unit
 bin-clean:
 	rm -rf bin
 
-vendor:
+deps:
 	go mod tidy
-	go get toolchain@go$(GO_VERSION)
-
-$(STATICCHECK_BINARY):
-	go build -o $@ honnef.co/go/tools/cmd/staticcheck
-
-$(YQ_BINARY):
-	go build -o $@ github.com/mikefarah/yq/v4
+	go get go@$(GO_VERSION) toolchain@go$(GO_VERSION)
 
 $(SPEAKEASY_BINARY):
-	cd $(@D) && curl https://github.com/speakeasy-api/speakeasy/releases/download/v1.119.0/speakeasy_$(OS)_$(ARCH).zip -L -o speakeasy.zip && unzip -o speakeasy.zip $(@F) && rm speakeasy.zip ; chmod +x $(@F)
+	mkdir -p $(@D)
+	cd $(@D) && curl https://github.com/speakeasy-api/speakeasy/releases/download/v1.129.1/speakeasy_$(OS)_$(ARCH).zip -L -o speakeasy.zip && unzip -o speakeasy.zip $(@F) && rm speakeasy.zip ; chmod +x $(@F)
 
-$(GOJSONTOYAML_BINARY):
-	go build -o $@ github.com/brancz/gojsontoyaml
-
-saladcloud.json:
-	curl https://docs.salad.com/reference/saladcloud-openapi-spec?json=on | jq .doc.body -r | head --lines=-1 | tail --lines=+2
-
-saladcloud.yaml: saladcloud.json $(GOJSONTOYAML_BINARY) $(YQ_BINARY) patch.sh
-	cat $< | $(GOJSONTOYAML_BINARY) | sh patch.sh > $@
+saladcloud.yaml: $(GOJSONTOYAML_BINARY) $(YQ_BINARY) patch.sh
+	curl https://docs.salad.com/reference/saladcloud-openapi-spec?json=on | sh patch.sh > $@
 
 $(SPEAKEASY_FILES) files.gen &: saladcloud.yaml $(SPEAKEASY_BINARY)
 	$(SPEAKEASY_BINARY) generate sdk --lang terraform --schema $< --out .
-	# Add tools.
-	sed -i '\|// Documentation generation|i _ "honnef.co/go/tools/cmd/staticcheck"' tools/tools.go
-	sed -i '\|// Documentation generation|i _ "github.com/mikefarah/yq/v4"' tools/tools.go
-	sed -i '\|// Documentation generation|i _ "github.com/brancz/gojsontoyaml"' tools/tools.go
-	grep "some_saladcloud_api_key" --files-without-match $$(grep "# Configuration options" --recursive --exclude-dir bin --files-with-matches .) | xargs sed -i '/^\s*# Configuration options/a \ \ api_key_auth = "some_saladcloud_api_key"'
 	$(MAKE) fmt
-	$(MAKE) vendor
+	$(MAKE) deps
 
-$(DOCS) &: $(EXAMPLES) $(SPEAKEASY_FILES) | files.gen
+$(DOCS) &: $(SPEAKEASY_FILES) | files.gen
 	go generate
 	sed -i 's/saladcloud Provider/SaladCloud Provider/' docs/index.md
 
 generate: $(GENERATED)
+
+-include saladcloud.mk
