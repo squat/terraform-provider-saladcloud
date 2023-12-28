@@ -25,8 +25,8 @@ type SaladcloudProvider struct {
 
 // SaladcloudProviderModel describes the provider data model.
 type SaladcloudProviderModel struct {
-	ServerURL  types.String `tfsdk:"server_url"`
-	APIKeyAuth types.String `tfsdk:"api_key_auth"`
+	ServerURL types.String `tfsdk:"server_url"`
+	APIKey    types.String `tfsdk:"api_key"`
 }
 
 func (p *SaladcloudProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -45,7 +45,7 @@ func (p *SaladcloudProvider) Schema(ctx context.Context, req provider.SchemaRequ
 				Optional:            true,
 				Required:            false,
 			},
-			"api_key_auth": schema.StringAttribute{
+			"api_key": schema.StringAttribute{
 				Optional:  true,
 				Sensitive: true,
 			},
@@ -68,9 +68,9 @@ func (p *SaladcloudProvider) Configure(ctx context.Context, req provider.Configu
 		ServerURL = "https://api.salad.com/api/public"
 	}
 
-	apiKeyAuth := data.APIKeyAuth.ValueString()
+	apiKey := data.APIKey.ValueString()
 	security := shared.Security{
-		APIKeyAuth: apiKeyAuth,
+		APIKey: apiKey,
 	}
 
 	opts := []sdk.SDKOption{

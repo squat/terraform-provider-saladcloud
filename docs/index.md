@@ -27,6 +27,7 @@ terraform {
 
 provider "saladcloud" {
   # Configuration options
+  api_key = "some_saladcloud_api_key"
 }
 ```
 
@@ -35,5 +36,5 @@ provider "saladcloud" {
 
 ### Optional
 
-- `api_key_auth` (String, Sensitive)
+- `api_key` (String, Sensitive)
 - `server_url` (String) Server URL (defaults to https://api.salad.com/api/public)
