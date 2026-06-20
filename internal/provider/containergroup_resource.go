@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
@@ -288,15 +287,6 @@ func (r *ContainerGroupResource) Schema(ctx context.Context, req resource.Schema
 									int64planmodifier.RequiresReplace(),
 								},
 								Required: true,
-							},
-							"shm_size": schema.Int64Attribute{
-								Computed: true,
-								Optional: true,
-								Default:  int64default.StaticInt64(64),
-								PlanModifiers: []planmodifier.Int64{
-									int64planmodifier.RequiresReplace(),
-								},
-								Description: "Shared memory size in MB for /dev/shm (64-1073741824)",
 							},
 						},
 						Description: `Represents a container resource requirements`,

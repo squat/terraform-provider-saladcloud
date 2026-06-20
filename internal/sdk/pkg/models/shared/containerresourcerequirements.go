@@ -9,7 +9,6 @@ type ContainerResourceRequirements struct {
 	GpuClass   *string  `json:"gpu_class,omitempty"`
 	GpuClasses []string `json:"gpu_classes,omitempty"`
 	Memory     int64    `json:"memory"`
-	ShmSize    *int64   `json:"shm_size,omitempty"`
 }
 
 func (o *ContainerResourceRequirements) GetCPU() int64 {
@@ -38,11 +37,4 @@ func (o *ContainerResourceRequirements) GetMemory() int64 {
 		return 0
 	}
 	return o.Memory
-}
-
-func (o *ContainerResourceRequirements) GetShmSize() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.ShmSize
 }

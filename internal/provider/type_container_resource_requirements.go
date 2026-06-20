@@ -9,5 +9,4 @@ type ContainerResourceRequirements struct {
 	GpuClass   types.String   `tfsdk:"gpu_class"`
 	GpuClasses []types.String `tfsdk:"gpu_classes"`
 	Memory     types.Int64    `tfsdk:"memory"`
-	ShmSize    types.Int64    `tfsdk:"shm_size"`
 }
