@@ -110,18 +110,11 @@ func (r *ContainerGroupResourceModel) ToCreateSDKType() *shared.CreateContainerG
 		gpuClasses = append(gpuClasses, gpuClassesItem.ValueString())
 	}
 	memory := r.Container.Resources.Memory.ValueInt64()
-	shmSize := new(int64)
-	if !r.Container.Resources.ShmSize.IsUnknown() && !r.Container.Resources.ShmSize.IsNull() {
-		*shmSize = r.Container.Resources.ShmSize.ValueInt64()
-	} else {
-		shmSize = nil
-	}
 	resources := shared.ContainerResourceRequirements{
 		CPU:        cpu,
 		GpuClass:   gpuClass,
 		GpuClasses: gpuClasses,
 		Memory:     memory,
-		ShmSize:    shmSize,
 	}
 	container := shared.CreateContainer{
 		Command:                command,
@@ -464,11 +457,6 @@ func (r *ContainerGroupResourceModel) RefreshFromGetResponse(resp *shared.Contai
 		r.Container.Resources.GpuClasses = append(r.Container.Resources.GpuClasses, types.StringValue(v))
 	}
 	r.Container.Resources.Memory = types.Int64Value(resp.Container.Resources.Memory)
-	if resp.Container.Resources.ShmSize != nil {
-		r.Container.Resources.ShmSize = types.Int64Value(*resp.Container.Resources.ShmSize)
-	} else {
-		r.Container.Resources.ShmSize = types.Int64Null()
-	}
 	r.CountryCodes = nil
 	for _, v := range resp.CountryCodes {
 		r.CountryCodes = append(r.CountryCodes, types.StringValue(string(v)))
